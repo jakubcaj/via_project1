@@ -19,11 +19,10 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/jquery-ui-git.css">
     <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@1.5.4/src/loadingoverlay.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@1.5.4/extras/loadingoverlay_progress/loadingoverlay_progress.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="../js/appController.js"></script>
-    <script src="../js/exchangeController.js"></script>
-    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/stockController.js"></script>
+    <link rel="stylesheet" href="../css/style.css"/>
 </head>
 <body>
 <div id="mySidenav" class="sidenav">
@@ -42,38 +41,17 @@
             <div class="row exchangeInputs">
                 <div class="col-lg-3">
                     <div class="ui-widget">
-                        <label for="currencyInput">From: </label>
-                        <input class="form-control" id="currencyInput">
+                        <label for="companyInput">Company: </label>
+                        <input class="form-control" id="companyInput">
                     </div>
                 </div>
-                <div class="col-lg-1">
-                <button type="button" class="btn btn-success exchangeShowBtn" onclick="switchInputs()"><i class="fa fa-exchange" aria-hidden="true"></i></button>
-                </div>
-                <div class="col-lg-3">
-                    <div class="ui-widget">
-                        <label for="currencyInputTo">To: </label>
-                        <input class="form-control" id="currencyInputTo">
-                    </div>
-                </div>
-                <button type="button" class="btn btn-success exchangeShowBtn" onclick="generateTable()">Show</button>
+                <button type="button" class="btn btn-success exchangeShowBtn" onclick="drawChart()">Show</button>
             </div>
-
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <table class="table table-bordered exchangeTable" id="exchangeTable">
-                        <tr>
-                            <th>From</th>
-                            <th>To</th>
-                            <th>value</th>
-                        </tr>
-
-                    </table>
-                </div>
+            <div class="row chart_data">
+                <div id="curve_chart" style="width: 900px; height: 500px"></div>
             </div>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>
