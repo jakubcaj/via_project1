@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shares App</title>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.js"
+            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+            crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script
+            src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"
+            integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/jquery-ui-git.css">
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@1.5.4/src/loadingoverlay.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@1.5.4/extras/loadingoverlay_progress/loadingoverlay_progress.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="../js/appController.js"></script>
+    <script src="../js/exchangeController.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="exchange.html">Exchange Rates</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+</div>
+<div id="main">
+    <div class="row">
+        <button class="btn btn-primary" onclick="openNav()">Menu</button>
+    </div>
+    <div class="row mainPage">
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="row exchangeInputs">
+                <div class="col-lg-3">
+                    <div class="ui-widget">
+                        <label for="currencyInput">From: </label>
+                        <input class="form-control" id="currencyInput">
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                <button type="button" class="btn btn-success exchangeShowBtn" onclick="switchInputs()"><i class="fa fa-exchange" aria-hidden="true"></i></button>
+                </div>
+                <div class="col-lg-3">
+                    <div class="ui-widget">
+                        <label for="currencyInputTo">To: </label>
+                        <input class="form-control" id="currencyInputTo">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success exchangeShowBtn" onclick="generateTable()">Show</button>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-bordered exchangeTable" id="exchangeTable">
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>value</th>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
