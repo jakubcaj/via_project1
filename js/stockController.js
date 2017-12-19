@@ -3,9 +3,8 @@ var SYMBOLS = [];
 var SELECTED_SYMBOL = {};
 
 $(document).ready(function () {
-    // $.LoadingOverlay("show");
+    $.LoadingOverlay("show");
     google.charts.load('current', {packages: ['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
     initializeStockComponents();
 });
 
@@ -20,13 +19,13 @@ function initializeSymbolsVariable() {
         dataType: "text",
         success: function (data) {
             addSymbolsToVariable(data);
-            debugger;
             $("#companyInput").autocomplete({
                 source: SYMBOLS,
-                select: function( event, ui ) {
+                select: function (event, ui) {
                     SELECTED_SYMBOL = ui.item.value;
                 }
             });
+            $.LoadingOverlay("hide");
         }
     });
 }
@@ -46,29 +45,58 @@ function addSymbolsToVariable(allText) {
 }
 
 function drawChart() {
-    $.ajax({
-        type: "GET",
-        url: "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+SELECTED_SYMBOL +"&interval=1min&apikey=FETPKH7UIPKWIKQS",
-        dataType: "json",
-        success: function (data) {
-            debugger;
-            var chartData = google.visualization.arrayToDataTable([
-                ['Year', 'Sales', 'Expenses'],
-                ['2004',  1000,      400],
-                ['2005',  1170,      460],
-                ['2006',  660,       1120],
-                ['2007',  1030,      540]
-            ]);
 
-            var options = {
-                title: 'Company Performance',
-                curveType: 'function',
-                legend: { position: 'bottom' }
-            };
+    if(validateStockPage()) {
+        $.LoadingOverlay("show");
+        $.ajax({
+            type: "GET",
+            url: "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + SELECTED_SYMBOL + "&interval=1min&apikey=FETPKH7UIPKWIKQS",
+            dataType: "json",
+            success: function (data) {
+                var dataArray = data["Time Series (1min)"];
 
-            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+                var result = [];
+                result.push(['Time', 'value']);
+                $.each(dataArray, function (key, value) {
+                    var item = [key, parseInt(value["1. open"])];
+                    result.push(item);
+                });
+                var chartData = google.visualization.arrayToDataTable(result);
 
-            chart.draw(chartData, options);
-        }
-    });
+                var options = {
+                    title: 'Stock value',
+                    curveType: 'function',
+                    legend: {position: 'bottom'},
+                    hAxis: {
+                        direction:'-1'
+                    }
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+                chart.draw(chartData, options);
+                $.LoadingOverlay("hide");
+            }
+        });
+    }
+}
+
+function validateStockPage() {
+    var company = $("#companyInput");
+
+    company.css("border-color", "");
+
+    var validated = true;
+
+    if (isEmpty(company.val())) {
+        validated = false;
+        company.css("border-color", "red");
+        toastr.error("Company field must not be empty");
+    }
+
+    return validated;
+}
+
+function isEmpty(value) {
+    return value === null || value.length === 0 || value == "";
 }

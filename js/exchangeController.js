@@ -51,33 +51,36 @@ function addOptionsToSelect(allText) {
 }
 
 function generateTable() {
-    var table = document.getElementById("exchangeTable");
 
-    if (CURR_FROM !== CURR_TO) {
-        $.LoadingOverlay("show");
-        $.ajax({
-            type: "GET",
-            url: "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=" + CURR_FROM + "&to_currency=" + CURR_TO + "&apikey=FETPKH7UIPKWIKQS",
-            dataType: "json",
-            success: function (data) {
-                var temp = data["Realtime Currency Exchange Rate"];
-                var tr = document.createElement("tr");
-                var from = document.createElement("td");
-                from.innerHTML = CURR_FROM;
-                var to = document.createElement("td");
-                to.innerHTML = CURR_TO;
-                var rate = document.createElement("td");
-                rate.innerHTML = temp["5. Exchange Rate"];
+    if(validateExchangePage()) {
+        var table = document.getElementById("exchangeTable");
 
-                tr.appendChild(from);
-                tr.appendChild(to);
-                tr.appendChild(rate);
+        if (CURR_FROM !== CURR_TO) {
+            $.LoadingOverlay("show");
+            $.ajax({
+                type: "GET",
+                url: "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=" + CURR_FROM + "&to_currency=" + CURR_TO + "&apikey=FETPKH7UIPKWIKQS",
+                dataType: "json",
+                success: function (data) {
+                    var temp = data["Realtime Currency Exchange Rate"];
+                    var tr = document.createElement("tr");
+                    var from = document.createElement("td");
+                    from.innerHTML = CURR_FROM;
+                    var to = document.createElement("td");
+                    to.innerHTML = CURR_TO;
+                    var rate = document.createElement("td");
+                    rate.innerHTML = temp["5. Exchange Rate"];
 
-                table.appendChild(tr);
-                $.LoadingOverlay("hide");
-            }
-        });
+                    tr.appendChild(from);
+                    tr.appendChild(to);
+                    tr.appendChild(rate);
 
+                    table.appendChild(tr);
+                    $.LoadingOverlay("hide");
+                }
+            });
+
+        }
     }
 }
 
@@ -92,4 +95,32 @@ function switchInputs() {
     CURR_TO = CURR_FROM;
     CURR_FROM = temp;
 
+}
+
+function validateExchangePage() {
+    var company = $("#currencyInput");
+    var companyTo = $("#currencyInputTo");
+
+    company.css("border-color", "");
+    companyTo.css("border-color", "");
+
+    var validated = true;
+
+    if (isEmpty(company.val())) {
+        validated = false;
+        company.css("border-color", "red");
+        toastr.error("From currency field must not be empty");
+    }
+
+    if (isEmpty(companyTo.val())) {
+        validated = false;
+        companyTo.css("border-color", "red");
+        toastr.error("From currency field must not be empty");
+    }
+
+    return validated;
+}
+
+function isEmpty(value) {
+    return value === null || value.length === 0 || value == "";
 }
